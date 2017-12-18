@@ -1,0 +1,21 @@
+while ((ch = fgetc(fp)) != EOF) {
+
+        row = counter/size;
+        column = counter%size;
+
+        if(ch != '\n')
+        {
+            maze[row][column] = ch;
+            counter++;
+            if(ch == "S")
+            {
+                startingColumn = column;
+            }
+            else if(ch == "E")
+            {
+                endingRow = row;
+            }
+        }
+
+        printf("%d  %d", startingColumn)
+    }
