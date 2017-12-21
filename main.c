@@ -29,7 +29,7 @@ void printList() { /*list printer function. */
     printf(" ]");
 }
 
-void insertFirst(int data) { /*this function adds the numbers to the beggining of the linked list*/
+void insertFirst(int data, int key, int parent) { /*this function adds the numbers to the beggining of the linked list*/
     //create a link
     struct node *link = (struct node *) malloc(sizeof(struct node));
 
@@ -119,6 +119,7 @@ int main() {
     int flag = 0;
     int flag2 = 0;
     int sizeOfFirst = 0;
+    int treeSize = 0;
 
 
     while ((read = getline(&line, &len, fpSize)) != -1) {
@@ -126,6 +127,8 @@ int main() {
             sizeOfFirst++;
     }
     fclose(fpSize);
+
+    treeSize = sizeOfFirst;
 
     int nodes[sizeOfFirst][2];
     int i = 0;
@@ -141,10 +144,27 @@ int main() {
                 token = strtok(NULL, " ");
                 j++;
             }
-            insertFirst(nodes[i][0]);
             i++;
         }
     }
+    int counter = 0;
+    int secondColumnCounter = 0;
+
+    insertFirst(nodes[0][0], counter, -1); /*inserting the root. It has parent -1 so i can easily check the root*/
+
+    for(i = 1; i<=nodes[0][1]; i++) /*inserting first leafs.*/
+    {
+        insertFirst(nodes[i][0], i, nodes[0][0]);
+    }
+    secondColumnCounter = secondColumnCounter + 1;
+    treeSize = treeSize - i;
+
+    if(treeSize>0)
+    {
+        
+    }
+
+
 
     reverse(&head);
     printList();
