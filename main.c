@@ -118,6 +118,7 @@ int main() {
         exit(EXIT_FAILURE);
     int flag = 0;
     int flag2 = 0;
+    int turn = 0; /*implements where is the line. Like this time we should pick the number from 5th element of array. rank*/
     int sizeOfFirst = 0;
     int treeSize = 0;
 
@@ -147,21 +148,65 @@ int main() {
             i++;
         }
     }
-    int counter = 0;
+    int counter = 1;
     int secondColumnCounter = 0;
+    int j = 1, temp = 1;
 
     insertFirst(nodes[0][0], counter, -1); /*inserting the root. It has parent -1 so i can easily check the root*/
 
     for(i = 1; i<=nodes[0][1]; i++) /*inserting first leafs.*/
     {
         insertFirst(nodes[i][0], i, nodes[0][0]);
+        counter++;
     }
+    turn = turn + i;
     secondColumnCounter = secondColumnCounter + 1;
     treeSize = treeSize - i;
 
-    if(treeSize>0)
+    while(treeSize>0) /*check if all the nodes are placed or not*/
     {
-        
+        printf(" %d ", turn);
+
+        if(nodes[secondColumnCounter][1] < nodes[secondColumnCounter-1][1])
+        {
+            for(i = 0; i<=nodes[secondColumnCounter][1]; i++) /*inserting other leaves.*/
+            {
+
+                insertFirst(nodes[counter][0], counter, nodes[0][0]); /*PARENTTA HATA VAR DÜZELT SONRADAN*/
+                flag = 1;
+                counter++;
+            }
+        }
+        else if(nodes[secondColumnCounter][1] == nodes[secondColumnCounter-1][1])
+        {
+            for(i = 0; i<=nodes[secondColumnCounter][1]; i++) /*inserting other leaves.*/
+            {
+                insertFirst(nodes[counter][0], counter, nodes[0][0]); /*PARENTTA HATA VAR DÜZELT SONRADAN*/
+                counter++;
+            }
+        }
+        else if(nodes[secondColumnCounter][1] > nodes[secondColumnCounter-1][1])
+        {
+            int mod = nodes[secondColumnCounter][1] / nodes[secondColumnCounter-1][1] + 1;
+
+            for(i = 1; i<mod+1; i++)
+            {
+                while (j<=nodes[secondColumnCounter][1])
+                {
+                    insertFirst(nodes[turn + j - 1][0], counter, nodes[0][0]); /*PARENTTA HATA VAR DÜZELT SONRADAN*/
+                    j = j + mod;
+                    counter++;
+                }
+                temp = temp +1;
+                j = temp;
+
+            }
+        }
+
+        treeSize = treeSize - nodes[secondColumnCounter][1]; /*update how many nodes left*/
+        turn = turn + nodes[secondColumnCounter][1];    /*update the rank*/
+        secondColumnCounter++;
+
     }
 
 
