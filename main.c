@@ -106,6 +106,7 @@ int main() {
 
 
 
+
     FILE *fp, *fpSize;
     char *line = NULL, *line2 = NULL;
     size_t len = 0;
@@ -148,6 +149,9 @@ int main() {
             i++;
         }
     }
+
+
+
     int counter = 1;
     int secondColumnCounter = 0;
     int j = 1, temp = 1;
@@ -159,17 +163,20 @@ int main() {
         insertFirst(nodes[i][0], i, nodes[0][0]);
         counter++;
     }
+
     turn = turn + i;
     secondColumnCounter = secondColumnCounter + 1;
     treeSize = treeSize - i;
 
-    while(treeSize>0) /*check if all the nodes are placed or not*/
+    while(treeSize >= 0 && flag2 != 2) /*check if all the nodes are placed or not*/
     {
-        printf(" %d ", turn);
+
+
+
 
         if(nodes[secondColumnCounter][1] < nodes[secondColumnCounter-1][1])
         {
-            for(i = 0; i<=nodes[secondColumnCounter][1]; i++) /*inserting other leaves.*/
+            for(i = 0; i<nodes[secondColumnCounter][1]; i++) /*inserting other leaves.*/
             {
 
                 insertFirst(nodes[counter][0], counter, nodes[0][0]); /*PARENTTA HATA VAR DÜZELT SONRADAN*/
@@ -179,9 +186,9 @@ int main() {
         }
         else if(nodes[secondColumnCounter][1] == nodes[secondColumnCounter-1][1])
         {
-            for(i = 0; i<=nodes[secondColumnCounter][1]; i++) /*inserting other leaves.*/
+            for(i = 0; i<nodes[secondColumnCounter][1]; i++) /*inserting other leaves.*/
             {
-                insertFirst(nodes[counter][0], counter, nodes[0][0]); /*PARENTTA HATA VAR DÜZELT SONRADAN*/
+                insertFirst(nodes[counter][0], counter, nodes[counter-nodes[secondColumnCounter][1]][0]); /*PARENTTA HATA VAR DÜZELT SONRADAN*/
                 counter++;
             }
         }
@@ -193,6 +200,8 @@ int main() {
             {
                 while (j<=nodes[secondColumnCounter][1])
                 {
+                    printf("%d,", turn + j -1-1);
+
                     insertFirst(nodes[turn + j - 1][0], counter, nodes[0][0]); /*PARENTTA HATA VAR DÜZELT SONRADAN*/
                     j = j + mod;
                     counter++;
@@ -203,10 +212,24 @@ int main() {
             }
         }
 
+
         treeSize = treeSize - nodes[secondColumnCounter][1]; /*update how many nodes left*/
-        turn = turn + nodes[secondColumnCounter][1];    /*update the rank*/
+
         secondColumnCounter++;
 
+
+
+
+        if(treeSize<=nodes[secondColumnCounter][1])
+        {
+            nodes[secondColumnCounter][1] = treeSize;
+            flag2++;
+        }
+        turn = turn + nodes[secondColumnCounter][1];    /*update the rank*/
+
+
+        temp = 1;
+        j = 1;
     }
 
 
